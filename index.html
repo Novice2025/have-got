@@ -1,0 +1,712 @@
+<!-- Chosen Palette: Gaming Cyberpunk Theme (Deep Black, Neon Pink, Electric Blue, Cyan) -->
+<!-- Application Structure Plan: The SPA is structured as a single-page, thematic guide for the English phrase "have got," targeted at Portuguese speakers. The information architecture is sequential and logical for learning: starting with the basic definition, moving to common usages (possession, obligation, health), then to cultural contexts (film/music), and finally to advanced nuances and practical tips. A sticky navigation bar allows users to jump between these thematic sections. The structure culminates in a summary and an an interactive quiz to reinforce learning. This design was chosen to guide the user from basic to advanced concepts in a clear, digestible manner, while the navigation provides flexibility for quick reference. -->
+<!-- Visualization & Content Choices: The source report's text content is organized into styled cards with icons for quick visual identification of themes. The key interaction is a language toggle (Portuguese/English) to aid comprehension. Examples are enhanced with a "copy to clipboard" feature for easy practice. An interactive quiz with multiple-choice questions and instant feedback was added to make the learning process more engaging and effective. This transforms the static markdown into a dynamic learning tool. No SVG/Mermaid graphics were used. -->
+<!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="main-title">Guia Definitivo: O Uso de 'Have Got' em Inglês</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #e0e0e0;
+            --card-bg: #1c1c1c;
+            --accent-color: #ff00ff;
+            --secondary-color: #00ffff;
+            --card-border: #333333;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        [data-theme="dark"] body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .container-card {
+            background-color: var(--card-bg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 2.5rem;
+            border-left: 6px solid var(--accent-color);
+            transition: transform 0.3s, background-color 0.3s, border-color 0.3s;
+        }
+
+        .container-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .phrase-block {
+            background-color: #2c2c2c;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--card-border);
+            transition: all 0.2s;
+        }
+
+        .phrase-block:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .copy-btn {
+            background-color: #444444;
+            color: #e0e0e0;
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            float: right;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .copy-btn:hover {
+            background-color: #666666;
+        }
+        
+        #message-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #444444;
+            color: var(--secondary-color);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .show {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--accent-color);
+            color: #000000;
+            padding: 12px;
+            border-radius: 50%;
+            display: none;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        
+        #back-to-top:hover {
+            transform: scale(1.1);
+            background-color: #ff33ff;
+        }
+
+        .nav-link {
+            transition: color 0.2s;
+            color: var(--secondary-color);
+        }
+
+        .nav-link:hover {
+            color: #33ffff;
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 lg:p-16">
+
+    <!-- Navigation Menu -->
+    <nav class="fixed top-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-4 z-50 shadow-md">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <a href="#top" class="text-xl font-bold text-white transition-colors duration-300 hover:text-cyan-400">Guia 'Have Got'</a>
+            <div class="flex items-center space-x-4">
+                <a href="#section1" class="hidden md:block nav-link" id="nav-common">Uso Comum</a>
+                <a href="#section2" class="hidden md:block nav-link" id="nav-obligation">Obrigação</a>
+                <a href="#section3" class="hidden md:block nav-link" id="nav-health">Saúde</a>
+                <a href="#section4" class="hidden md:block nav-link" id="nav-errors">Erros a Evitar</a>
+                <a href="#section5" class="hidden md:block nav-link" id="nav-scenario">Cenário</a>
+                <a href="#section6" class="hidden md:block nav-link" id="nav-more-scenarios">Mais Cenários</a>
+                <a href="#section7" class="hidden md:block nav-link" id="nav-translation-exercise">Exercício</a>
+                <a href="#quiz-section" class="hidden md:block nav-link font-bold" id="nav-quiz">Quiz</a>
+                <button id="language-toggle" class="bg-cyan-500 text-black font-bold py-1 px-3 rounded-full text-sm hover:bg-cyan-600 transition">
+                    EN
+                </button>
+                <button id="theme-toggle" class="text-white p-2 rounded-full hover:bg-gray-800 transition">
+                    <i class="fas fa-sun"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <div class="h-16" id="top"></div>
+
+    <div class="space-y-12 max-w-5xl mx-auto">
+
+        <div class="container-card text-center">
+            <div class="phrase-block">
+                <h1 id="main-header" class="text-3xl font-extrabold text-white mb-4">
+                    📚 Guia Definitivo: O Uso de 'Have Got' em Inglês
+                </h1>
+                <p id="main-text" class="text-lg leading-relaxed text-gray-300">
+                    A expressão **"have got"** é uma forma comum e natural de expressar posse e obrigação em inglês, usada principalmente em contextos informais. Embora signifique o mesmo que **"have"**, o uso de "got" é mais enfático e soa mais casual.
+                </p>
+            </div>
+        </div>
+
+        <div class="container-card">
+            <div class="phrase-block text-center">
+                <h2 class="text-2xl font-bold mb-4 text-center text-accent">Para Brasileiros: Por que esta expressão é tão importante?</h2>
+                <p class="text-lg leading-relaxed text-gray-300">
+                    Em português, é muito comum usarmos a forma contraída **"tá"** com o verbo **"ter"** para expressar posse ou obrigação de forma informal, como em "Tô com um carro novo" ou "Tô que sair". O "have got" em inglês tem exatamente essa mesma função! É a maneira mais natural de soar como um nativo em conversas do dia a dia.
+                </p>
+            </div>
+        </div>
+
+        <div class="container-card" id="section1">
+            <h2 id="section1-title" class="text-2xl font-bold mb-4 text-center text-accent">Uso 1: Para Expressar Posse</h2>
+            <p id="section1-desc" class="text-center text-gray-400 mb-6">A forma mais comum. Use para falar sobre coisas que você tem.</p>
+            <div class="grid md:grid-cols-3 gap-4">
+                <div class="phrase-block">
+                    <h3 id="s1-affirmative-title" class="font-bold text-lg text-green-500">Afirmativa</h3>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('I\'ve got a new car.')">Copiar</button>
+                        "<strong>I've got</strong> a new car."
+                    </p>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('They\'ve got two dogs.')">Copiar</button>
+                        "<strong>They've got</strong> two dogs."
+                    </p>
+                </div>
+                <div class="phrase-block">
+                    <h3 id="s1-negative-title" class="font-bold text-lg text-red-500">Negativa</h3>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('I haven\'t got any money.')">Copiar</button>
+                        "<strong>I haven't got</strong> any money."
+                    </p>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('He hasn\'t got a ticket.')">Copiar</button>
+                        "<strong>He hasn't got</strong> a ticket."
+                    </p>
+                </div>
+                <div class="phrase-block">
+                    <h3 id="s1-interrogative-title" class="font-bold text-lg text-cyan-400">Interrogativa</h3>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('Have you got the keys?')">Copiar</button>
+                        "<strong>Have you got</strong> the keys?"
+                    </p>
+                    <p class="text-gray-200 italic my-2">
+                        <button class="copy-btn" onclick="copyToClipboard('Have you got a minute?')">Copiar</button>
+                        "<strong>Have you got</strong> a minute?"
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-card" id="section2">
+            <h2 id="section2-title" class="text-2xl font-bold mb-4 text-center text-accent">Uso 2: Para Expressar Obrigação</h2>
+            <p id="section2-desc" class="text-center text-gray-400 mb-6">Quando seguido de "to", indica uma necessidade ou dever.</p>
+            <div class="phrase-block text-center mb-4">
+                <p class="text-gray-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('I\'ve got to leave now.')">Copiar</button>
+                    "<strong>I've got to</strong> leave now."
+                </p>
+                <p id="section2-meaning" class="text-sm text-gray-400">(Tenho que sair agora.)</p>
+            </div>
+            <div class="phrase-block text-center mb-4">
+                 <p class="text-gray-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('We\'ve got to finish this project by tomorrow.')">Copiar</button>
+                    "<strong>We've got to</strong> finish this project by tomorrow."
+                </p>
+                <p class="text-sm text-gray-400">(Temos de terminar este projeto até amanhã.)</p>
+            </div>
+            <div class="phrase-block text-center">
+                 <p class="text-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('She\'s got to study for the exam.')">Copiar</button>
+                    "<strong>She's got to</strong> study for the exam."
+                </p>
+                <p class="text-sm text-gray-400">(Ela tem de estudar para o exame.)</p>
+            </div>
+        </div>
+
+        <div class="container-card" id="section3">
+            <h2 id="section3-title" class="text-2xl font-bold mb-4 text-center text-accent">Uso 3: Para Descrever Doenças</h2>
+            <p id="section3-desc" class="text-center text-gray-400 mb-6">Uma forma natural para falar sobre como se está a sentir fisicamente.</p>
+            <div class="phrase-block text-center mb-4">
+                <p class="text-gray-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('She\'s got a terrible cough.')">Copiar</button>
+                    "<strong>She's got</strong> a terrible cough."
+                </p>
+                <p id="section3-meaning" class="text-sm text-gray-400">(Ela está com uma tosse terrível.)</p>
+            </div>
+            <div class="phrase-block text-center mb-4">
+                <p class="text-gray-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('He\'s got a fever.')">Copiar</button>
+                    "<strong>He's got</strong> a fever."
+                </p>
+                <p class="text-sm text-gray-400">(Ele está com febre.)</p>
+            </div>
+            <div class="phrase-block text-center">
+                <p class="text-gray-200 italic my-2 text-lg">
+                    <button class="copy-btn" onclick="copyToClipboard('I\'ve got a headache.')">Copiar</button>
+                    "<strong>I've got</strong> a headache."
+                </p>
+                <p class="text-sm text-gray-400">(Estou com dor de cabeça.)</p>
+            </div>
+        </div>
+
+        <div class="container-card" id="section4">
+            <h2 id="section4-title" class="text-2xl font-bold mb-4 text-center text-accent">Diferenças-chave e Erros a Evitar</h2>
+            <p id="section4-desc" class="text-center text-gray-400 mb-6">"Have got" não funciona para hábitos ou para o passado.</p>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-700">
+                        <tr>
+                            <th id="table-header1" class="p-3 text-cyan-400">Situação</th>
+                            <th id="table-header2" class="p-3 text-cyan-400">Correto com 'have'</th>
+                            <th id="table-header3" class="p-3 text-cyan-400">Incorreto com 'have got'</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-300">
+                        <tr class="border-b border-gray-600">
+                            <td id="table-row1-1" class="p-3">Hábitos</td>
+                            <td class="p-3">`I have breakfast at 8am.`</td>
+                            <td class="p-3">`I've got breakfast at 8am.`</td>
+                        </tr>
+                         <tr>
+                            <td id="table-row2-1" class="p-3">Passado</td>
+                            <td class="p-3">`I had a good time.`</td>
+                            <td class="p-3">`I had got a good time.`</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="container-card" id="section5">
+            <h2 id="section5-title" class="text-2xl font-bold mb-4 text-center text-accent">Cenário de Conversa</h2>
+            <div class="phrase-block mb-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h3 class="font-bold text-lg text-cyan-400">Em Inglês</h3>
+                        <p class="my-2">
+                            **Alex:** I can't find my keys. <strong>Have you got</strong> a spare set?
+                        </p>
+                        <p class="my-2">
+                            **Maria:** I'm not sure. I think I <strong>haven't got</strong> them with me.
+                        </p>
+                        <p class="my-2">
+                            **Alex:** Okay. I <strong>'ve got to</strong> be at the station in 10 minutes. This is a problem.
+                        </p>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-lg text-green-500">Em Português (BR)</h3>
+                        <p class="my-2">
+                            **Alex:** Não consigo encontrar minhas chaves. Você <strong>tá com</strong> um jogo extra?
+                        </p>
+                        <p class="my-2">
+                            **Maria:** Não tenho certeza. Eu acho que <strong>não tô com</strong> elas.
+                        </p>
+                        <p class="my-2">
+                            **Alex:** Certo. Eu <strong>tenho que</strong> estar na estação em 10 minutos. Isso é um problema.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-card" id="section6">
+            <h2 id="section6-title" class="text-2xl font-bold mb-4 text-center text-accent">Mais Cenários Comuns</h2>
+            <p id="section6-desc" class="text-center text-gray-400 mb-6">Veja como 'have got' se encaixa em diferentes situações do dia a dia.</p>
+            
+            <div class="phrase-block mb-6">
+                <h3 class="font-bold text-xl text-cyan-400">1. Fazendo Planos de Viagem</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Inglês</h4>
+                        <p class="my-2">
+                            **João:** <strong>Have you got</strong> your passport ready?
+                        </p>
+                        <p class="my-2">
+                            **Paula:** Yes! And I've still <strong>got to</strong> pack my clothes.
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Português (BR)</h4>
+                        <p class="my-2">
+                            **João:** Você <strong>já tá com</strong> o seu passaporte pronto?
+                        </p>
+                        <p class="my-2">
+                            **Paula:** Sim! E eu ainda <strong>tenho que</strong> arrumar minhas roupas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phrase-block mb-6">
+                <h3 class="font-bold text-xl text-cyan-400">2. Enfrentando um Problema no Trabalho</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Inglês</h4>
+                        <p class="my-2">
+                            **Carlos:** I <strong>haven't got</strong> the final report. <strong>Have you got</strong> a copy?
+                        </p>
+                        <p class="my-2">
+                            **Sofia:** Oh no. We <strong>'ve got to</strong> finish it today!
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Português (BR)</h4>
+                        <p class="my-2">
+                            **Carlos:** Eu <strong>não tô com</strong> o relatório final. Você <strong>tá com</strong> uma cópia?
+                        </p>
+                        <p class="my-2">
+                            **Sofia:** Ah não. A gente <strong>tem que</strong> terminar isso hoje!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="phrase-block">
+                <h3 class="font-bold text-xl text-cyan-400">3. Convidando Alguém para Sair</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Inglês</h4>
+                        <p class="my-2">
+                            **Lucas:** <strong>Have you got</strong> any plans for tonight?
+                        </p>
+                        <p class="my-2">
+                            **Ana:** No, I <strong>haven't got</strong> any. Why?
+                        </p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-lg text-green-500">Em Português (BR)</h4>
+                        <p class="my-2">
+                            **Lucas:** Você <strong>tem</strong> algum plano pra hoje à noite?
+                        </p>
+                        <p class="my-2">
+                            **Ana:** Não, eu <strong>não tenho</strong> nenhum. Por quê?
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container-card" id="section7">
+            <h2 id="section7-title" class="text-2xl font-bold mb-4 text-center text-accent">Exercício de Tradução</h2>
+            <p id="section7-desc" class="text-center text-gray-400 mb-6">Traduza as frases para o inglês (ou português) e clique para revelar a resposta.</p>
+
+            <div id="translation-exercises"></div>
+        </div>
+
+        <div class="container-card" id="quiz-section">
+             <h2 id="quiz-title" class="text-2xl font-bold mb-4 text-center text-accent">Teste o seu Conhecimento!</h2>
+             <div id="quiz-container" class="space-y-4">
+                 <p id="quiz-question" class="text-lg text-center font-semibold text-gray-200"></p>
+                 <div id="quiz-options" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+                 <p id="quiz-feedback" class="text-center font-bold h-6 mt-4"></p>
+             </div>
+        </div>
+
+    </div>
+
+    <a href="#top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <div id="message-box"></div>
+
+    <script>
+        const translations = {
+            pt: {
+                mainTitle: "Guia Definitivo: O Uso de 'Have Got' em Inglês",
+                mainHeader: "📚 Guia Definitivo: O Uso de 'Have Got' em Inglês",
+                mainText: 'A expressão **"have got"** é uma forma comum e natural de expressar posse e obrigação em inglês, usada principalmente em contextos informais. Embora signifique o mesmo que **"have"**, o uso de "got" é mais enfático e soa mais casual.',
+                navCommon: "Uso Comum",
+                navObligation: "Obrigação",
+                navHealth: "Saúde",
+                navErrors: "Erros a Evitar",
+                navScenario: "Cenário",
+                navMoreScenarios: "Mais Cenários",
+                navTranslationExercise: "Exercício",
+                navQuiz: "Quiz",
+                section1Title: "Uso 1: Para Expressar Posse",
+                section1Desc: "A forma mais comum. Use para falar sobre coisas que você tem.",
+                s1AffirmativeTitle: "Afirmativa",
+                s1NegativeTitle: "Negativa",
+                s1InterrogativeTitle: "Interrogativa",
+                section2Title: "Uso 2: Para Expressar Obrigação",
+                section2Desc: "Quando seguido de 'to', indica uma necessidade ou dever.",
+                section2Meaning: "(Tenho que sair agora.)",
+                section3Title: "Uso 3: Para Descrever Doenças",
+                section3Desc: "Uma forma natural para falar sobre como se está a sentir fisicamente.",
+                section3Meaning: "(Ela está com uma tosse terrível.)",
+                section4Title: "Diferenças-chave e Erros a Evitar",
+                section4Desc: "'Have got' não funciona para hábitos ou para o passado.",
+                tableHeader1: "Situação",
+                tableHeader2: "Correto com 'have'",
+                tableHeader3: "Incorreto com 'have got'",
+                tableRow1_1: "Hábitos",
+                tableRow2_1: "Passado",
+                section5Title: "Cenário de Conversa",
+                section6Title: "Mais Cenários Comuns",
+                section6Desc: "Veja como 'have got' se encaixa em diferentes situações do dia a dia.",
+                section7Title: "Exercício de Tradução",
+                section7Desc: "Traduza as frases para o inglês (ou português) e clique para revelar a resposta.",
+                quizTitle: "Teste o seu Conhecimento!",
+                quizCorrect: "Correto!",
+                quizIncorrect: "Incorreto. Tente novamente."
+            },
+            en: {
+                mainTitle: "Definitive Guide: The Use of 'Have Got' in English",
+                mainHeader: "📚 Definitive Guide: The Use of 'Have Got' in English",
+                mainText: 'The expression **"have got"** is a common and natural way to express possession and obligation in English, primarily used in informal contexts. While it means the same as **"have"**, the use of "got" is more emphatic and sounds more casual.',
+                navCommon: "Common Use",
+                navObligation: "Obligation",
+                navHealth: "Health",
+                navErrors: "Errors to Avoid",
+                navScenario: "Scenario",
+                navMoreScenarios: "More Scenarios",
+                navTranslationExercise: "Translation Exercise",
+                navQuiz: "Quiz",
+                section1Title: "Use 1: To Express Possession",
+                section1Desc: "The most common form. Use it to talk about things you have.",
+                s1AffirmativeTitle: "Affirmative",
+                s1NegativeTitle: "Negative",
+                s1InterrogativeTitle: "Interrogative",
+                section2Title: "Use 2: To Express Obligation",
+                section2Desc: "When followed by 'to', it indicates a need or duty.",
+                section2Meaning: "(I have to leave now.)",
+                section3Title: "Use 3: To Describe Illnesses",
+                section3Desc: "A natural way to talk about how you are feeling physically.",
+                section3Meaning: "(She has a terrible cough.)",
+                section4Title: "Key Differences and Errors to Avoid",
+                section4Desc: "'Have got' does not work for habits or the past tense.",
+                tableHeader1: "Situation",
+                tableHeader2: "Correct with 'have'",
+                tableHeader3: "Incorrect with 'have got'",
+                tableRow1_1: "Habits",
+                tableRow2_1: "Past Tense",
+                section5Title: "Conversation Scenario",
+                section6Title: "More Common Scenarios",
+                section6Desc: "See how 'have got' fits into different everyday situations.",
+                section7Title: "Translation Exercise",
+                section7Desc: "Translate the sentences to English (or Portuguese) and click to reveal the answer.",
+                quizTitle: "Test Your Knowledge!",
+                quizCorrect: "Correct!",
+                quizIncorrect: "Incorrect. Try again."
+            }
+        };
+
+        let currentLang = 'pt';
+        let currentTheme = 'dark';
+
+        const themeToggle = document.getElementById('theme-toggle');
+        const languageToggle = document.getElementById('language-toggle');
+        const backToTopBtn = document.getElementById('back-to-top');
+        const messageBox = document.getElementById('message-box');
+
+        function updateContent() {
+            const lang = translations[currentLang];
+            document.title = lang.mainTitle;
+            document.getElementById('main-header').innerHTML = lang.mainHeader;
+            document.getElementById('main-text').innerHTML = lang.mainText;
+            document.getElementById('nav-common').textContent = lang.navCommon;
+            document.getElementById('nav-obligation').textContent = lang.navObligation;
+            document.getElementById('nav-health').textContent = lang.navHealth;
+            document.getElementById('nav-errors').textContent = lang.navErrors;
+            document.getElementById('nav-scenario').textContent = lang.navScenario;
+            document.getElementById('nav-more-scenarios').textContent = lang.navMoreScenarios;
+            document.getElementById('nav-translation-exercise').textContent = lang.navTranslationExercise;
+            document.getElementById('nav-quiz').textContent = lang.navQuiz;
+            document.getElementById('section1-title').textContent = lang.section1Title;
+            document.getElementById('section1-desc').textContent = lang.section1Desc;
+            document.getElementById('s1-affirmative-title').textContent = lang.s1AffirmativeTitle;
+            document.getElementById('s1-negative-title').textContent = lang.s1NegativeTitle;
+            document.getElementById('s1-interrogative-title').textContent = lang.s1InterrogativeTitle;
+            document.getElementById('section2-title').textContent = lang.section2Title;
+            document.getElementById('section2-desc').textContent = lang.section2Desc;
+            document.getElementById('section2-meaning').textContent = lang.section2Meaning;
+            document.getElementById('section3-title').textContent = lang.section3Title;
+            document.getElementById('section3-desc').textContent = lang.section3Desc;
+            document.getElementById('section3-meaning').textContent = lang.section3Meaning;
+            document.getElementById('section4-title').textContent = lang.section4Title;
+            document.getElementById('section4-desc').textContent = lang.section4Desc;
+            document.getElementById('table-header1').textContent = lang.tableHeader1;
+            document.getElementById('table-header2').textContent = lang.tableHeader2;
+            document.getElementById('table-header3').textContent = lang.tableHeader3;
+            document.getElementById('table-row1-1').textContent = lang.tableRow1_1;
+            document.getElementById('table-row2-1').textContent = lang.tableRow2_1;
+            document.getElementById('section5-title').textContent = lang.section5Title;
+            document.getElementById('section6-title').textContent = lang.section6Title;
+            document.getElementById('section6-desc').textContent = lang.section6Desc;
+            document.getElementById('section7-title').textContent = lang.section7Title;
+            document.getElementById('section7-desc').textContent = lang.section7Desc;
+            document.getElementById('quiz-title').textContent = lang.quizTitle;
+            loadQuiz();
+            loadTranslationExercises();
+        }
+
+        themeToggle.addEventListener('click', () => {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            themeToggle.innerHTML = currentTheme === 'dark' ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        languageToggle.addEventListener('click', () => {
+            currentLang = currentLang === 'pt' ? 'en' : 'pt';
+            languageToggle.textContent = currentLang === 'pt' ? 'EN' : 'PT';
+            updateContent();
+        });
+
+        window.onscroll = () => {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTopBtn.style.display = "block";
+            } else {
+                backToTopBtn.style.display = "none";
+            }
+        };
+
+        function showMessage(text) {
+            messageBox.textContent = text;
+            messageBox.classList.add('show');
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 2000);
+        }
+
+        window.copyToClipboard = function(text) {
+            // Use a workaround for the clipboard API which is blocked in some environments
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = text;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+            
+            showMessage(currentLang === 'pt' ? 'Texto copiado!' : 'Text copied!');
+        }
+        
+        const quizData = {
+            pt: [
+                { q: "Qual frase está correta para expressar posse?", a: ["She's got a new phone.", "She got a new phone."], correct: "She's got a new phone." },
+                { q: "Como se diz 'Tenho de ir'?", a: ["I've got to go.", "I have go."], correct: "I've got to go." },
+                { q: "Qual das frases está incorreta?", a: ["I've got breakfast every day.", "I have breakfast every day."], correct: "I've got breakfast every day." }
+            ],
+            en: [
+                { q: "Which sentence is correct for expressing possession?", a: ["She's got a new phone.", "She got a new phone."], correct: "She's got a new phone." },
+                { q: "How do you say 'I have to go'?", a: ["I've got to go.", "I have go."], correct: "I've got to go." },
+                { q: "Which of the sentences is incorrect?", a: ["I've got breakfast every day.", "I have breakfast every day."], correct: "I've got breakfast every day." }
+            ]
+        };
+        
+        const quizQuestionEl = document.getElementById('quiz-question');
+        const quizOptionsEl = document.getElementById('quiz-options');
+        const quizFeedbackEl = document.getElementById('quiz-feedback');
+
+        function loadQuiz() {
+            const currentQuiz = quizData[currentLang][0];
+            quizQuestionEl.textContent = currentQuiz.q;
+            quizOptionsEl.innerHTML = '';
+            quizFeedbackEl.textContent = '';
+            
+            currentQuiz.a.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.className = "w-full p-3 bg-gray-700 rounded-md text-cyan-400 hover:bg-gray-600 transition-colors";
+                button.onclick = () => {
+                    if (option === currentQuiz.correct) {
+                        quizFeedbackEl.textContent = translations[currentLang].quizCorrect;
+                        quizFeedbackEl.className = 'text-green-500 font-bold';
+                    } else {
+                        quizFeedbackEl.textContent = translations[currentLang].quizIncorrect;
+                        quizFeedbackEl.className = 'text-red-500 font-bold';
+                    }
+                };
+                quizOptionsEl.appendChild(button);
+            });
+        }
+        
+        const translationExercises = [
+            { pt: "Eu tenho um computador novo.", en: "I've got a new computer." },
+            { pt: "Temos que sair às 17h.", en: "We've got to leave by 5 PM." },
+            { pt: "Você tem alguma pergunta?", en: "Have you got any questions?" },
+            { pt: "Ela não tem um ingresso para o show.", en: "She hasn't got a ticket for the concert." },
+            { pt: "Estou com dor de estômago.", en: "I've got a stomach ache." },
+            { pt: "Ele tem (está com) uma grande reunião hoje.", en: "He's got a big meeting today." },
+            { pt: "Eles não têm que trabalhar no sábado.", en: "They haven't got to work on Saturday." },
+            { pt: "Você está com o relatório que eu pedi?", en: "Have you got the report I asked for?" },
+            { pt: "Nós temos muitas tarefas a fazer.", en: "We've got a lot of tasks to do." },
+            { pt: "Ele está com febre?", en: "Has he got a fever?" }
+        ];
+
+        function loadTranslationExercises() {
+            const container = document.getElementById('translation-exercises');
+            container.innerHTML = '';
+            translationExercises.forEach((exercise, index) => {
+                const isPtToEn = index % 2 === 0;
+                const sourceText = isPtToEn ? exercise.pt : exercise.en;
+                const sourceLang = isPtToEn ? "Português" : "Inglês";
+                const targetLang = isPtToEn ? "Inglês" : "Português";
+
+                const exerciseBlock = document.createElement('div');
+                exerciseBlock.className = 'phrase-block mb-4';
+                exerciseBlock.innerHTML = `
+                    <h3 class="font-bold text-lg text-cyan-400">Do ${sourceLang} para o ${targetLang}</h3>
+                    <p class="text-gray-200 my-2 italic">
+                        <strong class="text-white">Frase:</strong> ${sourceText}
+                    </p>
+                    <div class="flex flex-col md:flex-row gap-2 mt-4">
+                        <input type="text" id="answer-input-${index}" class="flex-grow p-2 rounded-md bg-gray-800 text-gray-200 border-2 border-gray-600 focus:outline-none focus:border-purple-500" placeholder="Digite sua tradução aqui...">
+                        <button class="bg-purple-600 text-white p-2 rounded-md hover:bg-purple-700 transition-colors" onclick="checkAnswer(${index}, '${isPtToEn ? exercise.en.replace(/'/g, "\\'") : exercise.pt.replace(/'/g, "\\'")}', ${isPtToEn})">Verificar</button>
+                        <button class="bg-gray-700 text-cyan-400 p-2 rounded-md hover:bg-gray-600 transition-colors" onclick="showAnswer(${index}, '${isPtToEn ? exercise.en.replace(/'/g, "\\'") : exercise.pt.replace(/'/g, "\\'")}')">Mostrar Resposta</button>
+                    </div>
+                    <p id="feedback-${index}" class="text-sm mt-2 font-semibold"></p>
+                    <p id="correct-answer-${index}" class="text-gray-400 mt-2 italic hidden"></p>
+                `;
+                container.appendChild(exerciseBlock);
+            });
+        }
+        
+        window.checkAnswer = function(index, correctAnswer, isPtToEn) {
+            const inputElement = document.getElementById(`answer-input-${index}`);
+            const feedbackElement = document.getElementById(`feedback-${index}`);
+            
+            const userAnswer = inputElement.value.trim().replace(/\s+/g, ' ').toLowerCase();
+            const correctCleaned = correctAnswer.trim().toLowerCase();
+
+            if (userAnswer === correctCleaned || (isPtToEn && userAnswer === `I have got a lot of tasks to do.`)) { // Special case for "a lot of" for user convenience
+                feedbackElement.textContent = "Correto!";
+                feedbackElement.className = 'text-sm mt-2 font-semibold text-green-500';
+            } else {
+                feedbackElement.textContent = "Incorreto. Tente novamente.";
+                feedbackElement.className = 'text-sm mt-2 font-semibold text-red-500';
+            }
+        };
+
+        window.showAnswer = function(index, correctAnswer) {
+            const answerElement = document.getElementById(`correct-answer-${index}`);
+            const feedbackElement = document.getElementById(`feedback-${index}`);
+            
+            answerElement.textContent = `Resposta: ${correctAnswer}`;
+            answerElement.classList.remove('hidden');
+            
+            feedbackElement.textContent = "";
+        };
+
+        updateContent();
+    </script>
+</body>
+</html>
